@@ -6,8 +6,8 @@ from dataclasses import dataclass
 @dataclass
 class PerlPackage:
     version: str
-    runtime_deps: list[str]
-    buildtime_deps: list[str]
+    runtime_dependencies: list[str]
+    buildtime_dependencies: list[str]
     license: list[str]
     checksum_sha256: str
     download_url: str
@@ -33,16 +33,16 @@ def get_package_details(perl_name):
     url = get_url_for_release(perl_name)
     req = requests.get(url)
     req.raise_for_status()
-    conts = req.json()
+    contents = req.json()
 
     return_dict = {}
-    return_dict['version'] = conts['version']
-    return_dict['runtime_deps'] = [i['module'] for i in conts['dependency'] if i['phase'] == 'runtime']
-    return_dict['buildtime_deps'] = [i['module'] for i in conts['dependency'] if i['phase'] == 'build']
-    return_dict['license'] = conts['license']
-    return_dict['checksum_sha256'] = conts['checksum_sha256']
-    return_dict['download_url'] = conts['download_url']
-    return_dict['description'] = conts['abstract']
-    return_dict['provides'] = conts['provides']
+    return_dict['version'] = contents['version']
+    return_dict['runtime_dependencies'] = [i['module'] for i in contents['dependency'] if i['phase'] == 'runtime']
+    return_dict['buildtime_dependencies'] = [i['module'] for i in contents['dependency'] if i['phase'] == 'build']
+    return_dict['license'] = contents['license']
+    return_dict['checksum_sha256'] = contents['checksum_sha256']
+    return_dict['download_url'] = contents['download_url']
+    return_dict['description'] = contents['abstract']
+    return_dict['provides'] = contents['provides']
     return PerlPackage(**return_dict)
 
