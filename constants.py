@@ -1,0 +1,2 @@
+MINGW_PACKAGE_PREFIX = 'mingw-w64-x86_64-'
+REPO_PACKAGE_PREFIX = 'mingw-w64-'
