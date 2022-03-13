@@ -24,7 +24,7 @@ def write_pkgbuild_packages(package_details: PerlPackage, repo_location, mingw64
     log.info("Dist name parsing: %s", package_details.name)
     log.info("Parsing dependencies for: %s", package_details.name)
     write_pkgbuild(
-        package_details, repo_location / (MINGW_PACKAGE_PREFIX + package_details.name)
+        package_details, repo_location / (REPO_PACKAGE_PREFIX + convert_perl_to_mingw_name(package_details.name))
     )
     for dep in [
         *package_details.buildtime_dependencies,
@@ -55,13 +55,18 @@ if __name__ == '__main__':
     package_name = args.name
     repo_path: Path = args.repo_path
     log.info("Module Name: %s", package_name)
+    if "::" in package_name:
+        dist_name = get_dist_name_from_module(package_name)
+    else:
+        dist_name = package_name
+    log.info("Distribution name: %s", dist_name)
     log.info("MINGW-packages repo: %s", repo_path.resolve().absolute())
 
     if not repo_path.exists():
         log.info("Repo doesn't exists, creating...")
         repo_path.mkdir(parents=True)
 
-    package_details = get_package_details(package_name)
+    package_details = get_package_details(dist_name)
     mingw64_db = pacdb.Database("mingw64", filename="mingw64.db")
 
     write_pkgbuild_packages(package_details, repo_path, mingw64_db)

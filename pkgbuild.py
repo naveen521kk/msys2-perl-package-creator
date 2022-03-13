@@ -35,4 +35,5 @@ def write_pkgbuild(pkg_data: PerlPackage, output_dir: Path):
         output_dir.mkdir(parents=True)
     with (output_dir / 'PKGBUILD').open('w', encoding='utf-8', newline='\n') as f:
         f.write(output)
+        f.write('\n')
     shutil.copyfile(TEMPLATE_FOLDER / 'patchmakefile.py',output_dir / 'patchmakefile.py')

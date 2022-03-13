@@ -25,17 +25,18 @@ depends=(
 options=('!emptydirs')
 makedepends=(
   "${MINGW_PACKAGE_PREFIX}-python"
+  "${MINGW_PACKAGE_PREFIX}-cc"
 {% for dependency in makedepends %}
   "${MINGW_PACKAGE_PREFIX}-{{ dependency }}"
 {% endfor %}
 )
 license={{ license }}
 source=(
-  {{ download_url }}
-  "patchmakefile.py"
+  '{{ download_url }}'
+  'patchmakefile.py'
 )
-sha256sums=({{ sha256_sums }}
-            'd7ec5ba4a3d75f674f4028e8a53bc4177ab71a379bc63affebf910e1d5a0e491b6642318218b55ddc4d90e0125d61e4b97626782af57d44522bcb5543fb21cb2')
+sha256sums=('{{ sha256_sums }}'
+            '00fe5ced42aa635714909a8eba1347a6c132011a9bce68e9c75b27ebd64628f2')
 
 build() {
   cd "$srcdir/${_perlname}-${pkgver}"

@@ -23,7 +23,7 @@ class PerlPackage:
 
 
 def convert_license_list_to_str(licenses: typing.Iterable):
-    return "( " + ", ".join(licenses) + ")"
+    return "(" + ", ".join([f"'{i}'" for i in licenses]) + ")"
 
 
 def convert_perl_to_mingw_name(perl_name: str) -> str:
@@ -75,7 +75,7 @@ def get_package_details(perl_name):
     return_dict["checksum_sha256"] = contents["checksum_sha256"]
     return_dict["download_url"] = contents["download_url"]
     return_dict["description"] = contents["abstract"]
-    return_dict["provides"] = contents["provides"]
+    return_dict["provides"] = [i for i in contents["provides"] if i != return_dict['name']]
     return PerlPackage(**return_dict)
 
 def get_dist_name_from_module(module_name: str) -> str:
