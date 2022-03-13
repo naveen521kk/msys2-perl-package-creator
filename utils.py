@@ -28,7 +28,7 @@ def convert_license_list_to_str(licenses: typing.Iterable):
 
 def convert_perl_to_mingw_name(perl_name: str) -> str:
     # If just perl is passed return it
-    if perl_name == 'perl':
+    if perl_name == "perl":
         return perl_name
     # everything starts with `perl-`
     mingw_package = "perl-"
@@ -75,11 +75,12 @@ def get_package_details(perl_name):
     return_dict["checksum_sha256"] = contents["checksum_sha256"]
     return_dict["download_url"] = contents["download_url"]
     return_dict["description"] = contents["abstract"]
-    return_dict["provides"] = [i for i in contents["provides"] if i != return_dict['name']]
+    return_dict["provides"] = contents["provides"]
     return PerlPackage(**return_dict)
 
+
 def get_dist_name_from_module(module_name: str) -> str:
-    api_url = f'https://fastapi.metacpan.org/v1/module/{module_name}'
+    api_url = f"https://fastapi.metacpan.org/v1/module/{module_name}"
     req = requests.get(api_url)
     req.raise_for_status()
-    return req.json()['distribution']
+    return req.json()["distribution"]

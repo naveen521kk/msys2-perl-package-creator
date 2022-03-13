@@ -9,8 +9,12 @@ from rich.logging import RichHandler
 
 from constants import MINGW_PACKAGE_PREFIX, REPO_PACKAGE_PREFIX
 from pkgbuild import write_pkgbuild
-from utils import (PerlPackage, convert_perl_to_mingw_name,
-                   get_dist_name_from_module, get_package_details)
+from utils import (
+    PerlPackage,
+    convert_perl_to_mingw_name,
+    get_dist_name_from_module,
+    get_package_details,
+)
 
 FORMAT = "%(message)s"
 logging.basicConfig(
@@ -19,17 +23,21 @@ logging.basicConfig(
 log = logging.getLogger(__file__)
 
 
-def write_pkgbuild_packages(package_details: PerlPackage, repo_location, mingw64_db: pacdb.Database):
+def write_pkgbuild_packages(
+    package_details: PerlPackage, repo_location, mingw64_db: pacdb.Database
+):
     # mingw64_db = pacdb.mingw_db_by_name('mingw64')
     log.info("Dist name parsing: %s", package_details.name)
     log.info("Parsing dependencies for: %s", package_details.name)
     write_pkgbuild(
-        package_details, repo_location / (REPO_PACKAGE_PREFIX + convert_perl_to_mingw_name(package_details.name))
+        package_details,
+        repo_location
+        / (REPO_PACKAGE_PREFIX + convert_perl_to_mingw_name(package_details.name)),
     )
     for dep in [
         *package_details.buildtime_dependencies,
         *package_details.runtime_dependencies,
-    ]: 
+    ]:
         log.info("Module Name: %s", dep)
         dist_name = get_dist_name_from_module(dep)
         dep_pkg_name = convert_perl_to_mingw_name(dist_name)
@@ -46,10 +54,16 @@ def write_pkgbuild_packages(package_details: PerlPackage, repo_location, mingw64
     log.info("Package and it's deps created for: %s", package_details.name)
 
 
-if __name__ == '__main__':
-    parser = argparse.ArgumentParser(description="autobuild PKGBUILD's for perl package")
-    parser.add_argument('name', help="the name of the package (case-sensitive)")
-    parser.add_argument('repo_path', help="the path where the git repo of MINGW-package is located", type=Path)
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(
+        description="autobuild PKGBUILD's for perl package"
+    )
+    parser.add_argument("name", help="the name of the package (case-sensitive)")
+    parser.add_argument(
+        "repo_path",
+        help="the path where the git repo of MINGW-package is located",
+        type=Path,
+    )
     args = parser.parse_args()
 
     package_name = args.name
