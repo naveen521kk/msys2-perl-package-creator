@@ -313,7 +313,7 @@ class Database(object):
             if provides:
                 self.all_pkg.extend([i.split('=')[0] for i in provides])
         self.all_pkg.extend(self.byname)
-        print('mingw-w64-x86_64-perl' in self.all_pkg)
+        # print('mingw-w64-x86_64-perl' in self.all_pkg)
         #raise Exception([i for i in self.all_pkg if 'perl' in i])
 
     @classmethod
