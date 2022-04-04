@@ -49,6 +49,7 @@ def write_pkgbuild_packages(
             log.info("`%s' doesn't exists. Making a package.", mingw_package_name)
             _new_package_details = get_package_details(dist_name)
             write_pkgbuild_packages(_new_package_details, repo_location, mingw64_db)
+            mingw64_db.all_pkg.append(mingw_package_name)
         else:
             log.info("`%s' exists in repo.", mingw_package_name)
     log.info("Package and it's deps created for: %s", package_details.name)
