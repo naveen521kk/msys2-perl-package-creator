@@ -27,7 +27,7 @@ makedepends=(
   "${MINGW_PACKAGE_PREFIX}-python"
   "${MINGW_PACKAGE_PREFIX}-cc"
   $([[ ${MINGW_PACKAGE_PREFIX} != *-clang-* ]] || \
-    echo "${MINGW_PACKAGE_PREFIX}-gcc-compat"))
+    echo "${MINGW_PACKAGE_PREFIX}-gcc-compat")
 {% for dependency in makedepends %}
   "${MINGW_PACKAGE_PREFIX}-{{ dependency }}"
 {% endfor %}
